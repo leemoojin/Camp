@@ -75,7 +75,7 @@ namespace TextGame
 
             }
 
-            Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
+            //Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
         }
 
         public void ReleaseEquip(Item item)
@@ -93,7 +93,7 @@ namespace TextGame
                 //this.IsArmor = false;
             };
 
-            Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
+            //Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
 
         }
 
@@ -113,7 +113,7 @@ namespace TextGame
             //if (this.EquipArmor == null) this.EquipDex = 0;
             //else this.EquipDex += this.EquipArmor.Dex;
 
-            Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
+            //Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
 
 
         }
