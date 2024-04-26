@@ -18,66 +18,104 @@ namespace TextGame
         private int _hp;
         private int _gold;
 
-        private bool _isEquip;
+        //private bool _isEquip;
         private int _equipStr;
         private int _equipDex;
-        private List<Item> _equipList;
+        //private List<Item> _equipList;
 
-        private bool _isWeapon;
-        private bool _isArmor;
+        private Weapon? _equipWeapon;
+        private Armor? _equipArmor;
+
+        //private bool _isWeapon;
+        //private bool _isArmor;
 
 
         //생성자
         public Player() 
         {
-            this._lv = 1;
-            this._name = "null";
-            this._job = "전사";
-            this._str = 10;
-            this._dex = 5;
-            this._hp = 100;
-            this._gold = 4000;
-            this._isEquip = false;
-            this._equipStr = 0;
-            this._equipDex = 0;
-            this.IsWeapon = false;
-            this.IsArmor = false;
+            this.Lv = "1";
+            this.Name = "null";
+            this.Job = "전사";
+            this.Str = 10;
+            this.Dex = 5;
+            this.Hp = 100;
+            this.Gold = 8000;
+            //this.IsEquip = false;
+            this.EquipStr = 0;
+            this.EquipDex = 0;
+            //this.IsWeapon = false;
+            //this.IsArmor = false;
+            this.EquipWeapon = null;
+            this.EquipArmor = null;
 
-            _equipList = new List<Item>();
+            //_equipList = new List<Item>();
             
         }
 
         public void Equip(Item item) 
         {
-            _equipList.Add(item);           
+            if (item.Type == "무기")
+            {   
+                if(this.EquipWeapon != null) ReleaseEquip(this.EquipWeapon);
+
+                this.EquipWeapon = (Weapon)item;
+                //this.IsWeapon = true;
+
+                //Console.WriteLine($"무기 장착 {this.EquipWeapon.Str}");
+
+            }
+            else
+            {
+                if (this.EquipArmor != null) ReleaseEquip(this.EquipArmor);
+
+                this.EquipArmor = (Armor)item;
+                //this.IsArmor = true;
+                //Console.WriteLine($"방어구 장착 {this.EquipArmor.Dex}");
+
+
+            }
+
+            Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
         }
 
         public void ReleaseEquip(Item item)
         {
-            _equipList.Remove(item);
+            if (item.Type == "무기")
+            {
+                //this.EquipStr -= this.EquipWeapon.Str;
+                this.EquipWeapon = null;
+                //this.IsWeapon = false;
+            }
+            else
+            {
+                //this.EquipDex -= this.EquipArmor.Dex;
+                this.EquipArmor = null;
+                //this.IsArmor = false;
+            };
+
+            Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
+
         }
 
-        
+
         public void EquipStatus()
         {
             this.EquipStr = 0;
             this.EquipDex = 0;
 
-            foreach (Item i in _equipList)
-            {
-                if (i.Type == "무기")
-                {
-                    //부모 클래스에서 자식클래스의 프로퍼티에 접근하는 방법이 있는지?
-                    Weapon weapon = (Weapon)i;
-                    this.EquipStr += weapon.Str;
+            if(this.EquipWeapon != null) this.EquipStr += this.EquipWeapon.Str;
+            if (this.EquipArmor != null) this.EquipDex += this.EquipArmor.Dex;
 
-                }
-                else
-                {
-                    Armor armor = (Armor)i;
-                    this.EquipDex += armor.Dex;
-                }
-            }
+
+            //if (this.EquipWeapon == null) this.EquipStr = 0;
+            //else this.EquipStr += this.EquipWeapon.Str;
+
+            //if (this.EquipArmor == null) this.EquipDex = 0;
+            //else this.EquipDex += this.EquipArmor.Dex;
+
+            Console.WriteLine($"공 : {this.AllStr}, 방 : {this.AllDex}");
+
+
         }
 
         //프로퍼티
@@ -132,11 +170,11 @@ namespace TextGame
             get { return _gold; }
             set { _gold = value; }
         }
-        public bool IsEquip
-        {
-            get { return _isEquip; }
-            set { _isEquip = value; }
-        }
+        //public bool IsEquip
+        //{
+        //    get { return _isEquip; }
+        //    set { _isEquip = value; }
+        //}
         public int EquipStr
         { 
             get { return _equipStr; }
@@ -152,7 +190,7 @@ namespace TextGame
         {
             get 
             {
-                if (_equipStr > 0) return $"{this.Str} (+{this.EquipStr})";
+                if (this.EquipStr > 0) return $"{this.Str} (+{this.EquipStr})";
                 else return $"{this.Str}";
 
             }
@@ -162,13 +200,17 @@ namespace TextGame
         {
             get
             {
-                if (_equipDex > 0) return $"{this.Dex} (+{this.EquipDex})";
+                if (this.EquipDex > 0) return $"{this.Dex} (+{this.EquipDex})";
                 else return $"{this.Dex}";
             }
         }
 
-        public bool IsWeapon { get; set; }
-        public bool IsArmor { get; set; }
+        //public bool IsWeapon { get; private set;}
+        //public bool IsArmor { get; private set; }
+
+        public Weapon? EquipWeapon { get; private set; }
+        public Armor? EquipArmor { get; private set; }
+
 
 
     }

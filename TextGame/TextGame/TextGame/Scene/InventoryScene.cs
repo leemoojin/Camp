@@ -91,70 +91,71 @@ namespace TextGame.Scene
                     continue;
                 }               
 
-
+                //이미 착용한 장비 선택시
                 if (_bag.IndexToObj(result - 1).IsUse)
                 {
                     _bag.IndexToObj(result - 1).IsUse = false;
-                    var item = _bag.IndexToObj(result - 1);
+                    //var item = _bag.IndexToObj(result - 1);
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write($"\n{item.Name}을/를 해제했습니다!\n");
+                    Console.Write($"\n{_bag.IndexToObj(result - 1).Name}을/를 해제했습니다!\n");
                     Console.ResetColor();
 
-                    _player.ReleaseEquip(item);
+                    _player.ReleaseEquip(_bag.IndexToObj(result - 1));
                     _player.EquipStatus();
                 }
-                //장비 장착
-                else 
+                //착용전 장비를 선택
+                else
                 {
+                    //이미 다른 장비를 착용 중일때
+                    if (_bag.IndexToObj(result - 1).Type == "무기" && _player.EquipWeapon != null)
+                    {
+                        //Console.WriteLine("무기 착용중");
+                        _bag.IndexToObj(result - 1).IsUse = true;
+                        _bag.ReturnList().Find(x => x == _player.EquipWeapon).IsUse = false;
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write($"\n{_bag.IndexToObj(result - 1).Name}으로 교체했습니다!\n");
+                        Console.ResetColor();
+                        
+                        _player.Equip(_bag.IndexToObj(result - 1));
+                        _player.EquipStatus();
+
+                        continue;
+                    }
+                    else if (_bag.IndexToObj(result - 1).Type == "방어구" && _player.EquipArmor != null)
+                    {
+                        //Console.WriteLine("방어구 착용중");
+                        _bag.IndexToObj(result - 1).IsUse = true;
+                        _bag.ReturnList().Find(x => x == _player.EquipArmor).IsUse = false;
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write($"\n{_bag.IndexToObj(result - 1).Name}으로 교체했습니다!\n");
+                        Console.ResetColor();
+                        
+                        _player.Equip(_bag.IndexToObj(result - 1));
+                        _player.EquipStatus();
+
+                        continue;
+
+                    }
+
+                    //장비 장착
                     _bag.IndexToObj(result - 1).IsUse = true;
-                    var item = _bag.IndexToObj(result - 1);
 
-                    Console.WriteLine(item.Type);
-
-                    ////이미 장비를 착용한 경우
-                    //if (item.Type == "무기" && _player.IsWeapon)
-                    //{
-                    //    //기존 장비해제
-                    //    _player.ReleaseEquip("무기");
-
-                    //    Console.ForegroundColor = ConsoleColor.Yellow;
-                    //    Console.Write($"\n{item.Name}으로 교체했습니다!\n");
-                    //    Console.ResetColor();
-
-                    //    _player.Equip(item);
-                    //    _player.EquipStatus();
-                    //    continue;
-                    //}
-                    //else if (item.Type == "방어구" && _player.IsArmor)
-                    //{
-                    //    //기존 장비해제
-                    //    _player.ReleaseEquip("방어구");
-
-                    //    Console.ForegroundColor = ConsoleColor.Yellow;
-                    //    Console.Write($"\n{item.Name}으로 교체했습니다!\n");
-                    //    Console.ResetColor();
-
-                    //    _player.Equip(item);
-                    //    _player.EquipStatus();
-                    //    continue;
-                    //}
-
+                    //Console.WriteLine(_bag.IndexToObj(result - 1).Type);
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write($"\n{item.Name}을/를 장착했습니다!\n");
+                    Console.Write($"\n{_bag.IndexToObj(result - 1).Name}을/를 장착했습니다!\n");
                     Console.ResetColor();
 
-                    _player.Equip(item);
+                    _player.Equip(_bag.IndexToObj(result - 1));
                     _player.EquipStatus();
 
-                    if(item.Type == "무기")_player.IsWeapon = true;
-                    else if(item.Type == "방어구")_player.IsArmor = true;
-                }
+                }            
+                          
 
-
-
-
+               
 
             }
 

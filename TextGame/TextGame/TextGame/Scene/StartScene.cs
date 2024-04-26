@@ -10,7 +10,7 @@ namespace TextGame.Scene
     internal class StartScene
     {   
         private Player _player = Program.player;
-        private Bag _bag = Program.bag;
+        //private Bag _bag = Program.bag;
 
         //private StatusScene _statusScene = Program.statusScene;
         private StatusScene _statusScene;
